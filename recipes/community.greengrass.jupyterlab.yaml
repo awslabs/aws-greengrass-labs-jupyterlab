@@ -1,0 +1,41 @@
+---
+RecipeFormatVersion: 2020-01-25
+ComponentName: community.greengrass.jupyterlab
+ComponentVersion: 1.0.0
+ComponentDescription: A jupyter notebook running in Greengrass 
+ComponentPublisher: Massimiliano Angelino
+ComponentConfiguration:
+  DefaultConfiguration:
+    PASSWORD_HASH:
+ComponentDependencies:
+  community.greengrass.libffi:
+    VersionRequirement: "^1.0.0"
+  aws.greengrass.TokenExchangeService:
+    VersionRequirement: ">0.0.0"
+Manifests:
+  - Lifecycle:
+      Install:
+        Setenv:
+          JUPYTER_CONFIG_DIR: "{work:path}/.jupyter"
+        Skipif: exists {work:path}/.venv/bin/jupyter
+        Script: |-
+          python3 -m venv .venv
+          . .venv/bin/activate
+          pip install pip --upgrade
+          pip install wheel
+          pip install jupyterlab
+        Timeout: 600
+      Run:
+        Setenv:
+          JUPYTER_CONFIG_DIR: "{work:path}/.jupyter"
+          PASSWORD_HASH: "{configuration:/PASSWORD_HASH}"
+        Script: |-
+          . .venv/bin/activate
+          export OPENBLAS_CORETYPE="{configuration:/OPENBLAS_CORETYPE}"
+          if ! test $PASSWORD_HASH = "null"
+          then
+            rm $JUPYTER_CONFIG_DIR/jupyter_server_config.py
+            jupyter server --generate-config
+            echo c.ServerApp.password=u\"$PASSWORD_HASH\" >> $JUPYTER_CONFIG_DIR/jupyter_server_config.py
+          fi
+          jupyter lab --no-browser
