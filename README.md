@@ -69,3 +69,8 @@ The following table describes the changes in each version of the component.
 | Version | Changes |
 |---|---|
 | 1.0.0 | Initial version |
+
+
+## Thank you
+
+This component would have not been possible without the great work done by [Project Jupyter](https://jupyter.org/)
