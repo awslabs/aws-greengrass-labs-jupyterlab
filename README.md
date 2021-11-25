@@ -1,4 +1,4 @@
-# community.greengrass.jupyterlab
+# | aws.greengrass.labs.jupyterlab
 
 This component deploys JupyterLab onto a Greengrass device. The Jupyter environment has access to all the process and environment variable resources set by Greengrass and allows for a simpler testing and development of components written in Python.
 
@@ -39,7 +39,7 @@ When you deploy a component, AWS IoT Greengrass also deploys compatible versions
 |---|---|---|
 | Greengrass nucleus | >=2.0.0 <2.5.0 | Soft |
 | Token exchange service | >=0.0.0 | Hard |
-| community.greengrass.libffi | 1.0.0 | Hard |
+| aws.greengrass.labs.libffi | 1.0.0 | Hard |
 
 ## Configuration
 
@@ -58,7 +58,7 @@ If the password hash is not set, you will need to have to provide a session toke
 This component uses the following log file:
 
 ```bash
-/greengrass/v2/logs/community.greengrass.jupyterlab.log
+/greengrass/v2/logs/aws.greengrass.labs.jupyterlab.log
 ```
 
 

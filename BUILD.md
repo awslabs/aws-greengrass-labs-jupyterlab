@@ -9,6 +9,6 @@ Pre-requisite:
 To publish the component in your account, execute:
 
 ```bash
-aws greengrassv2 create-component-version --recipe fileb://./recipes/community.greengrass.libffi.yaml
-aws greengrassv2 create-component-version --recipe fileb://./recipes/community.greengrass.jupyterlab.yaml
+aws greengrassv2 create-component-version --recipe fileb://./recipes/aws.greengrass.labs.libffi.yaml
+aws greengrassv2 create-component-version --recipe fileb://./recipes/aws.greengrass.labs.jupyterlab.yaml
 ```

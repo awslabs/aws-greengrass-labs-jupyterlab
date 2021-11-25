@@ -1,6 +1,6 @@
 ---
 RecipeFormatVersion: 2020-01-25
-ComponentName: community.greengrass.libffi
+ComponentName: aws.greengrass.labs.libffi
 ComponentVersion: 1.0.0
 ComponentDescription: libffi dependency for running JupyterLab 
 ComponentPublisher: Amazon Web Services
