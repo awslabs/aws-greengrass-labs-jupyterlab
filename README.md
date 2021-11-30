@@ -37,7 +37,6 @@ When you deploy a component, AWS IoT Greengrass also deploys compatible versions
 
 | Dependency | Compatible versions | Dependency type |
 |---|---|---|
-| Greengrass nucleus | >=2.0.0 <2.5.0 | Soft |
 | Token exchange service | >=0.0.0 | Hard |
 | aws.greengrass.labs.libffi | 1.0.0 | Hard |
 
