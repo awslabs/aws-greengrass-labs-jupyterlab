@@ -15,6 +15,7 @@ Manifests:
           then
             apt-get install libffi-dev
           elif [ $(which yum) ]
+          then
             yum install libffi-dev
           else
             echo "Unsupported package manager"
