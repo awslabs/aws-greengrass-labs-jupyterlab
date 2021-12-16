@@ -4,6 +4,10 @@ This component deploys JupyterLab onto a Greengrass device. The Jupyter environm
 
 You need to upload both `community.greengrass.jupyterlab` and `community.greengrass.libffi` to your account, but you need to include only `community.greengrass.jupyterlab` in your deployments.
 
+Once deployed this component starts a Jupyter Lab server on `localhost:8888`. For security reasons, this address is not accessible from other hosts, even on the same network. In order to access the server you need to create an SSH tunnel to the device and forward the `8888` port to a local port on your machine.
+
+`ssh -L localhost:8888:localhost:8888 <remote device>`
+
 For more information on JupyterLab see [JupyterLab Documentation](https://jupyterlab.readthedocs.io/en/stable/).
 
 To allow this component to use Greengrass IPC you need to add an `accessControl` section in the component configuration as explained in [Authorize components to perform IPC operations](https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-authorization-policies).
