@@ -4,9 +4,26 @@ This component deploys JupyterLab onto a Greengrass device. The Jupyter environm
 
 You need to upload both `community.greengrass.jupyterlab` and `community.greengrass.libffi` to your account, but you need to include only `community.greengrass.jupyterlab` in your deployments.
 
+### Accessing the Jupyter Lab console
+
 Once deployed this component starts a Jupyter Lab server on `localhost:8888`. For security reasons, this address is not accessible from other hosts, even on the same network. In order to access the server you need to create an SSH tunnel to the device and forward the `8888` port to a local port on your machine.
 
 `ssh -L localhost:8888:localhost:8888 <remote device>`
+
+Using `ssh` requires a route to the device. If the device is deployed in a different network, this might not always be possible. In such case you can use `aws.greengrass.SystemManagerAgent` [component](https://docs.aws.amazon.com/greengrass/v2/developerguide/systems-manager-agent-component.html) to deploy a System Manager agent that allows remote connections from anywhere.
+
+Follow the [instructions](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up-edge-devices.html) to configure the component. If you are deploying the agent in an [hybrid environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances.html), you need to enable [advanced-instances tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances-advanced.html) to be able to use the session manager feature.
+
+Once you have performed the necessary configuration and deployed both Jupyter Lab and Sessions Manager Agent components you can run the following command from any machine with internet access and provisioned with [AWS IAM credentials](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started-instance-profile.html) that allow the Session Manager connection.
+
+```bash
+export INSTANCE_ID=mi-abc
+aws ssm start-session --target $INSTANCE_ID --document-name AWS-StartPortForwardingSession --parameters '{"portNumber":["8888"],"localPortNumber":["8080"]}' --region <aws-region>
+```
+
+Once the tunnel runs, you can access the Jupyter Lab console at `http://localhost:8080`.
+
+### Additional information
 
 For more information on JupyterLab see [JupyterLab Documentation](https://jupyterlab.readthedocs.io/en/stable/).
 
@@ -55,6 +72,11 @@ This component provides the following configuration parameters that you can cust
 `python3 -c "from jupyter_server.auth import passwd; print(passwd())"`
 
 If the password hash is not set, you will need to have to provide a session token to access the notebook. The session token can be obtained from the component log. When using a token, JupyterLab gives the user the possibility to set a password for further access.
+
+`ALLOW_REMOTE`
+
+(Optional) Set to `true` to allow remote hosts tunneling into the device to access the Jupyter Lab console. This is necessary in case you use AWS Cloud9 instance as a jump host via an System Manager SessionManager tunnel.
+
 
 ## Local log file
 

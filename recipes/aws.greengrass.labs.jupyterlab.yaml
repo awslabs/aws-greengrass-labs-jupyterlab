@@ -7,6 +7,7 @@ ComponentPublisher: Massimiliano Angelino
 ComponentConfiguration:
   DefaultConfiguration:
     PASSWORD_HASH:
+    ALLOW_REMOTE:
 ComponentDependencies:
   aws.greengrass.labs.libffi:
     VersionRequirement: "^1.0.0"
@@ -29,6 +30,7 @@ Manifests:
         Setenv:
           JUPYTER_CONFIG_DIR: "{work:path}/.jupyter"
           PASSWORD_HASH: "{configuration:/PASSWORD_HASH}"
+          ALLOW_REMOTE: "{configuration:/ALLOW_REMOTE}"
         Script: |-
           . .venv/bin/activate
           export OPENBLAS_CORETYPE="{configuration:/OPENBLAS_CORETYPE}"
@@ -37,5 +39,9 @@ Manifests:
             rm $JUPYTER_CONFIG_DIR/jupyter_server_config.py
             jupyter server --generate-config
             echo c.ServerApp.password=u\"$PASSWORD_HASH\" >> $JUPYTER_CONFIG_DIR/jupyter_server_config.py
+          fi
+          if ! test $ALLOW_REMOTE = "null"
+          then 
+            echo c.ServerApp.allow_remote_access=True >> $JUPYTER_CONFIG_DIR/jupyter_server_config.py
           fi
           jupyter lab --no-browser
