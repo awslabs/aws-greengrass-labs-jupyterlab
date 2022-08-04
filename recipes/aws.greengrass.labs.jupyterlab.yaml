@@ -14,7 +14,9 @@ ComponentDependencies:
   aws.greengrass.TokenExchangeService:
     VersionRequirement: ">0.0.0"
 Manifests:
-  - Lifecycle:
+  - Platform:
+      os: linux
+    Lifecycle:
       Install:
         Setenv:
           JUPYTER_CONFIG_DIR: "{work:path}/.jupyter"
