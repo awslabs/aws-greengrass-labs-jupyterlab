@@ -1,7 +1,7 @@
 ---
 RecipeFormatVersion: 2020-01-25
 ComponentName: aws.greengrass.labs.jupyterlab
-ComponentVersion: 1.0.0
+ComponentVersion: 1.0.1
 ComponentDescription: A jupyter notebook running in Greengrass 
 ComponentPublisher: Massimiliano Angelino
 ComponentConfiguration:
@@ -33,13 +33,14 @@ Manifests:
           JUPYTER_CONFIG_DIR: "{work:path}/.jupyter"
           PASSWORD_HASH: "{configuration:/PASSWORD_HASH}"
           ALLOW_REMOTE: "{configuration:/ALLOW_REMOTE}"
+          LOCALHOST_ONLY: "{configuration:/LOCALHOST_ONLY}"
         Script: |-
           . .venv/bin/activate
           export OPENBLAS_CORETYPE="{configuration:/OPENBLAS_CORETYPE}"
+          rm $JUPYTER_CONFIG_DIR/jupyter_server_config.py
+          jupyter server --generate-config
           if ! test $PASSWORD_HASH = "null"
           then
-            rm $JUPYTER_CONFIG_DIR/jupyter_server_config.py
-            jupyter server --generate-config
             echo c.ServerApp.password=u\"$PASSWORD_HASH\" >> $JUPYTER_CONFIG_DIR/jupyter_server_config.py
           fi
           if ! test $ALLOW_REMOTE = "null"
