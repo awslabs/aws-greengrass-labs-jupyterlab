@@ -2,7 +2,13 @@
 
 This component deploys JupyterLab onto a Greengrass device. The Jupyter environment has access to all the process and environment variable resources set by Greengrass and allows for a simpler testing and development of components written in Python.
 
-You need to upload both `community.greengrass.jupyterlab` and `community.greengrass.libffi` to your account, but you need to include only `community.greengrass.jupyterlab` in your deployments.
+## Install
+
+Refer to [BUILD.md](./BUILD.md) for instruction on how to add the components to your AWS account.
+
+Once you have the published the components to the account you can add `aws.greengrass.labs.jupyterlab` to a deployment targeting the device(s).
+
+You can select the following [link](https://console.aws.amazon.com/iot/home?#/greengrass/v2/components/private/aws.greengrass.labs.jupyterlab) to verify that the component has been published correctly to the account. If you get an error message, verify first that the correct AWS region is selected.
 
 ### Accessing the Jupyter Lab console
 
