@@ -105,6 +105,7 @@ The following table describes the changes in each version of the component.
 | Version | Changes |
 |---|---|
 | 1.0.0 | Initial version |
+| 1.0.1 | Correctly reset password hash |
 
 
 ## Thank you
