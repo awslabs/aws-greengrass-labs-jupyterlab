@@ -8,14 +8,17 @@ Refer to [BUILD.md](./BUILD.md) for instruction on how to add the components to 
 
 Once you have the published the components to the account you can add `aws.greengrass.labs.jupyterlab` to a deployment targeting the device(s).
 
+It is recommended to define a `PASSWORD_HASH` (see [Configuration](#configuration)) to gain access to the Jupyter console. If a password is not defined during deployment, Jupyter Lab creates a one-time token that can be retrieved from the [component logs](#local-log-file).
+
 You can select the following [link](https://console.aws.amazon.com/iot/home?#/greengrass/v2/components/private/aws.greengrass.labs.jupyterlab) to verify that the component has been published correctly to the account. If you get an error message, verify first that the correct AWS region is selected.
 
-### Accessing the Jupyter Lab console
+## Accessing the Jupyter Lab console
 
 Once deployed this component starts a Jupyter Lab server on `localhost:8888`. For security reasons, this address is not accessible from other hosts, even on the same network. In order to access the server you need to create an SSH tunnel to the device and forward the `8888` port to a local port on your machine.
 
 `ssh -L localhost:8888:localhost:8888 <remote device>`
 
+#### Access via Session Manager
 Using `ssh` requires a route to the device. If the device is deployed in a different network, this might not always be possible. In such case you can use `aws.greengrass.SystemManagerAgent` [component](https://docs.aws.amazon.com/greengrass/v2/developerguide/systems-manager-agent-component.html) to deploy a System Manager agent that allows remote connections from anywhere.
 
 Follow the [instructions](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up-edge-devices.html) to configure the component. If you are deploying the agent in an [hybrid environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances.html), you need to enable [advanced-instances tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances-advanced.html) to be able to use the session manager feature.
@@ -29,9 +32,11 @@ aws ssm start-session --target $INSTANCE_ID --document-name AWS-StartPortForward
 
 Once the tunnel runs, you can access the Jupyter Lab console at `http://localhost:8080`.
 
-### Additional information
+## Additional information
 
 For more information on JupyterLab see [JupyterLab Documentation](https://jupyterlab.readthedocs.io/en/stable/).
+
+### Accessing AWS IoT Greengrass IPC services
 
 To allow this component to use Greengrass IPC you need to add an `accessControl` section in the component configuration as explained in [Authorize components to perform IPC operations](https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-authorization-policies).
 
